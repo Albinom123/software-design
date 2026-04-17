@@ -136,8 +136,8 @@ namespace lab3
             myLibrary.Add(new AudioBook
             {
                 Title = "The Robb'it",
-                Author = "N.I.G.G.A Token",
-                Narrator = "Andy Serkis",
+                Author = "N.I.G Token",
+                Narrator = "Randy Marsh",
                 DurationMinutes = 620
             });
 
