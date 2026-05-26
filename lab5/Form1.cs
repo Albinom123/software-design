@@ -14,24 +14,24 @@ namespace lab5
             InitializeComponent();
         }
 
-        // ==========================================
+       
         // TASK 5: CREATE OPERATION
-        // ==========================================
+       
         public void AddAuthorWithBook(string authorName, string bookTitle)
         {
             using (var context = new BookstoreContext())
             {
-                // Create a new author entity
+               
                 var author = new Author { Name = authorName };
 
-                // Create a new book entity and link it to the author
+              
                 var book = new Book { Title = bookTitle, Author = author };
 
-                // Add records to memory tracking sets
+                
                 context.Authors.Add(author);
                 context.Books.Add(book);
 
-                // Commit and save to the SQL Server database
+             
                 context.SaveChanges();
             }
         }
@@ -52,11 +52,11 @@ namespace lab5
                 AddAuthorWithBook(authorName, bookTitle);
                 MessageBox.Show("Author and Book added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                // Clear the input fields for the next entry
+        
                 txtAuthorName.Clear();
                 txtBookTitle.Clear();
 
-                // Automatically refresh the list box display
+                
                 btnShowBooks_Click(sender, e);
             }
             catch (Exception ex)
@@ -65,21 +65,21 @@ namespace lab5
             }
         }
 
-        // ==========================================
+        
         // TASK 5: READ OPERATION
-        // ==========================================
+        
         public List<string> GetBooksWithAuthors()
         {
             var bookListStrings = new List<string>();
 
             using (var context = new BookstoreContext())
             {
-                // Use .Include to eagerly load the Author records for each Book
+               
                 var books = context.Books.Include(b => b.Author).ToList();
 
                 foreach (var b in books)
                 {
-                    // Format a readable string line item for the ListBox
+             
                     bookListStrings.Add($"ID: {b.BookID} | Title: {b.Title} by {b.Author.Name}");
                 }
             }
@@ -105,23 +105,20 @@ namespace lab5
             }
         }
 
-        // ==========================================
         // TASK 6: UPDATE OPERATION
-        // ==========================================
+       
         public void UpdateBookAndAuthor(int bookId, string newTitle, string newAuthorName)
         {
             using (var context = new BookstoreContext())
             {
-                // Find the book by its unique primary key ID and include the linked author
                 var book = context.Books.Include(b => b.Author).FirstOrDefault(b => b.BookID == bookId);
 
                 if (book != null)
                 {
-                    // Modify properties in memory
+        
                     book.Title = newTitle;
                     book.Author.Name = newAuthorName;
 
-                    // Entity Framework automatically tracks these updates and applies them
                     context.SaveChanges();
                     MessageBox.Show("Book and Author updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
@@ -155,7 +152,7 @@ namespace lab5
                 txtBookID.Clear();
                 txtBookTitle.Clear();
                 txtAuthorName.Clear();
-                btnShowBooks_Click(sender, e); // Refresh display
+                btnShowBooks_Click(sender, e); 
             }
             catch (Exception ex)
             {
@@ -163,9 +160,9 @@ namespace lab5
             }
         }
 
-        // ==========================================
+   
         // TASK 7: STUDENT CHALLENGE (DELETE)
-        // ==========================================
+      
         public void DeleteBook(int bookId)
         {
             using (var context = new BookstoreContext())
@@ -174,7 +171,6 @@ namespace lab5
 
                 if (book != null)
                 {
-                    // Remove the entity row
                     context.Books.Remove(book);
                     context.SaveChanges();
                     MessageBox.Show("Book tracking record deleted successfully!", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -198,7 +194,7 @@ namespace lab5
             {
                 DeleteBook(bookId);
                 txtBookID.Clear();
-                btnShowBooks_Click(sender, e); // Refresh display
+                btnShowBooks_Click(sender, e); 
             }
             catch (Exception ex)
             {
@@ -206,9 +202,8 @@ namespace lab5
             }
         }
 
-        // ==========================================
         // TASK 7: STUDENT CHALLENGE (SEARCH AUTHOR)
-        // ==========================================
+
         private void btnSearchAuthor_Click(object sender, EventArgs e)
         {
             string searchName = txtAuthorName.Text.Trim();
@@ -225,7 +220,6 @@ namespace lab5
 
                 using (var context = new BookstoreContext())
                 {
-                    // Filter records using a LINQ .Where query mapping string values
                     var searchResults = context.Books
                         .Include(b => b.Author)
                         .Where(b => b.Author.Name.Contains(searchName))
