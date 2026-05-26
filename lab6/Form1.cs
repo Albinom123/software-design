@@ -14,7 +14,7 @@ namespace lab6
             InitializeComponent();
         }
 
-        // Helper structure to bind the actual Database ID to the ListBox hidden from the plain text view
+  
         public class BookDisplayItem
         {
             public int BookId { get; set; }
@@ -22,9 +22,8 @@ namespace lab6
             public override string ToString() => DisplayText;
         }
 
-        // ==========================================
+    
         // TASK 1 & 3: FETCH DATA WITH PROGRESS
-        // ==========================================
         public async Task FetchBooksWithProgressAsync(IProgress<int> progress)
         {
             using (var context = new BookstoreContext())
@@ -60,9 +59,9 @@ namespace lab6
             await FetchBooksWithProgressAsync(progressHandler);
         }
 
-        // ==========================================
+        
         // TASK 2: ADD / SAVE DATA ASYNCHRONOUSLY
-        // ==========================================
+     
         public async Task SaveBookAsync(string bookTitle, string authorName)
         {
             using (var context = new BookstoreContext())
@@ -90,13 +89,13 @@ namespace lab6
             FormUtilities.ClearFormFields(this);
             MessageBox.Show("Book and Author saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // Automatically refresh the view
+          
             btnFetchBooks.PerformClick();
         }
 
-        // ==========================================
+      
         // TASK 3 CHALLENGE: UPDATE & DELETE ASYNCHRONOUSLY
-        // ==========================================
+     
         public async Task UpdateBookAsync(int bookId, string newTitle, string newAuthorName)
         {
             using (var context = new BookstoreContext())
@@ -165,14 +164,13 @@ namespace lab6
             }
         }
 
-        // ==========================================
+      
         // TASK 3 CHALLENGE: SEARCH ASYNCHRONOUSLY
-        // ==========================================
+        
         private async void txtSearch_TextChanged(object sender, EventArgs e)
         {
             string query = txtSearch.Text;
 
-            // If search box is cleared, automatically re-load all inventory items
             if (string.IsNullOrWhiteSpace(query) || query == "Enter title keywords...")
             {
                 return;
@@ -194,12 +192,11 @@ namespace lab6
             }
         }
 
-        // Fill inputs automatically when you click an inventory item to easily update it
         private void listBoxBooks_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (listBoxBooks.SelectedItem is BookDisplayItem selectedBook)
             {
-                // Simple parsing to split text details into edit boxes
+       
                 string[] parts = selectedBook.DisplayText.Split(new string[] { " by " }, StringSplitOptions.None);
                 if (parts.Length == 2)
                 {
@@ -210,7 +207,7 @@ namespace lab6
         }
     }
 
-    // Renamed helper class to keep standard system window components working perfectly
+
     public static class FormUtilities
     {
         public static void ClearFormFields(Form form)
@@ -219,7 +216,7 @@ namespace lab6
             {
                 if (c is TextBox box) box.Clear();
 
-                // Also scan embedded container layouts
+             
                 if (c.HasChildren)
                 {
                     foreach (Control child in c.Controls)
